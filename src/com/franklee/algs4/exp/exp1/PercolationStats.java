@@ -22,6 +22,23 @@ public class PercolationStats {
         runTimes = new double[T];
     }
 
+    // a helper output stream data type to write data to both the console and a file
+    private static class MultiOutputStream extends OutputStream {
+        private OutputStream output1;
+        private OutputStream output2;
+
+        public MultiOutputStream(OutputStream output1, OutputStream output2) {
+            this.output1 = output1;
+            this.output2 = output2;
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            output1.write(b);
+            output2.write(b);
+        }
+    }
+
     public void test(int choice) {
         // Monte Carlo simulation
         for (int i = 0; i < T; i++) {
@@ -67,7 +84,8 @@ public class PercolationStats {
         double ansConfidenceHi = confidenceHi();
         try{
             PrintStream ps = new PrintStream(new FileOutputStream("ans/ans1.txt", true));
-            System.setOut(new PrintStream(ps));
+            MultiOutputStream mos = new MultiOutputStream(System.out, ps);
+            System.setOut(new PrintStream(mos));
             if (choice == 1) {
                 System.out.println("Algorithm currently in use: WeightedQuickUnionUF");
             } else {
@@ -83,9 +101,6 @@ public class PercolationStats {
             System.out.println();
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -98,7 +113,8 @@ public class PercolationStats {
             int T = Integer.parseInt(args[1]);
             try {
                 PrintStream ps = new PrintStream(new FileOutputStream("ans/ans1.txt"));
-                System.setOut(new PrintStream(ps));
+                MultiOutputStream mos = new MultiOutputStream(System.out, ps);
+                System.setOut(new PrintStream(mos));
                 System.out.printf("********** N = %d, T = %d **********\n", N, T);
                 System.out.println("--------------------------------------------------");
             } catch (FileNotFoundException e) {
