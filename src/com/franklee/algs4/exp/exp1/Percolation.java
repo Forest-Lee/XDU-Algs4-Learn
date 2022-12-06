@@ -1,10 +1,10 @@
 package com.franklee.algs4.exp.exp1;
 
 public class Percolation {
-    private final UF grid;    // N-by-N grid (include virtual top and bottom)
-    private final boolean[] status;             // status[i] = open status of site i
-    private final int N;
-    private int count;                          // number of open sites
+    private final UF grid;              // N-by-N grid (include virtual top and bottom)
+    private final boolean[] status;     // status[i] = open status of site i
+    private final int N;                // size of grid
+    private int count;                  // number of open sites
 
     public Percolation(int N, int choice) {
         if (N <= 0) {
@@ -17,7 +17,7 @@ public class Percolation {
             this.grid = new QuickFindUF(N * N + 2);
         }
         status = new boolean[N * N + 2];
-        status[0] = status[N * N + 1] = true; // virtual top and bottom are open
+        status[0] = status[N * N + 1] = true;   // virtual top and bottom are open
     }
 
     public int count() {
@@ -50,10 +50,10 @@ public class Percolation {
         if (row == N) {
             grid.union(index, N * N + 1);
         }
-        neighborConnect(row, col, row - 1, col);  // up
-        neighborConnect(row, col, row + 1, col);  // down
-        neighborConnect(row, col, row, col - 1);  // left
-        neighborConnect(row, col, row, col + 1);  // right
+        neighborConnect(row, col, row - 1, col);    // up
+        neighborConnect(row, col, row + 1, col);    // down
+        neighborConnect(row, col, row, col - 1);    // left
+        neighborConnect(row, col, row, col + 1);    // right
     }
 
     // connect neighbor if it is open

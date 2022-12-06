@@ -6,9 +6,9 @@ import edu.princeton.cs.algs4.StdStats;
 import java.io.*;
 
 public class PercolationStats {
-    private final int N;
-    private final int T;
-    private final double[] ratios;
+    private final int N;                // size of grid
+    private final int T;                // number of experiments
+    private final double[] ratios;      // ratios[i] = ratio of open sites in i-th experiment
     private final double[] runTimes;
     private final double CONFIDENCE_95 = 1.96;
 
