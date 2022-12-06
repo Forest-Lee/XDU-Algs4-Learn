@@ -99,8 +99,13 @@ public class PercolationStats {
             System.out.printf("average running time    = %.4fms\n", avgRunTime);
             System.out.println("--------------------------------------------------");
             System.out.println();
+            mos.close();
+            ps.close(); // close stream (if not, writing to file will repeat twice the second time the method is called)
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
