@@ -122,8 +122,13 @@ public class PercolationStats {
                 System.setOut(new PrintStream(mos));
                 System.out.printf("********** N = %d, T = %d **********\n", N, T);
                 System.out.println("--------------------------------------------------");
+                mos.close();
+                ps.close();
             } catch (FileNotFoundException e) {
                 System.out.println("File not found!");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             PercolationStats percolationStats = new PercolationStats(N, T);
             percolationStats.test(0);   // QuickFindUF
