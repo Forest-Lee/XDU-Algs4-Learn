@@ -2,60 +2,99 @@
 --------------------------------------------------
 Algorithm currently in use: QuickFindUF
 --------------------------------------------------
-mean                    = 0.5928000000000000
-stddev                  = 0.0728091458346526
-confidenceLo            = 0.5785294074164081
-confidenceHi            = 0.6070705925835919
-average running time    = 0.1800ms
+mean                    = 0.5990999999999999
+stddev                  = 0.0749423347338041
+confidenceLo            = 0.5844113023921742
+confidenceHi            = 0.6137886976078255
+average running time    = 0.1000ms
 --------------------------------------------------
 
 Algorithm currently in use: WeightedQuickUnionUF
 --------------------------------------------------
-mean                    = 0.5906000000000001
-stddev                  = 0.0729164458871117
-confidenceLo            = 0.5763083766061262
-confidenceHi            = 0.6048916233938740
-average running time    = 0.1200ms
+mean                    = 0.5948000000000000
+stddev                  = 0.0746639609899386
+confidenceLo            = 0.5801658636459720
+confidenceHi            = 0.6094341363540280
+average running time    = 0.0600ms
+--------------------------------------------------
+
+********** N = 50, T = 100 **********
+--------------------------------------------------
+Algorithm currently in use: QuickFindUF
+--------------------------------------------------
+mean                    = 0.5885760000000002
+stddev                  = 0.0242135495918790
+confidenceLo            = 0.5838301442799919
+confidenceHi            = 0.5933218557200085
+average running time    = 4.1600ms
+--------------------------------------------------
+
+Algorithm currently in use: WeightedQuickUnionUF
+--------------------------------------------------
+mean                    = 0.5941080000000000
+stddev                  = 0.0272697771064294
+confidenceLo            = 0.5887631236871398
+confidenceHi            = 0.5994528763128602
+average running time    = 1.3200ms
 --------------------------------------------------
 
 ********** N = 100, T = 100 **********
 --------------------------------------------------
 Algorithm currently in use: QuickFindUF
 --------------------------------------------------
-mean                    = 0.5934889999999998
-stddev                  = 0.0161931953223406
-confidenceLo            = 0.5903151337168211
-confidenceHi            = 0.5966628662831786
-average running time    = 42.7500ms
+mean                    = 0.5929240000000001
+stddev                  = 0.0158734459670447
+confidenceLo            = 0.5898128045904594
+confidenceHi            = 0.5960351954095409
+average running time    = 40.9800ms
 --------------------------------------------------
 
 Algorithm currently in use: WeightedQuickUnionUF
 --------------------------------------------------
-mean                    = 0.5931359999999999
-stddev                  = 0.0147001100799836
-confidenceLo            = 0.5902547784243231
-confidenceHi            = 0.5960172215756767
-average running time    = 2.3600ms
+mean                    = 0.5941979999999996
+stddev                  = 0.0158282446687221
+confidenceLo            = 0.5910956640449301
+confidenceHi            = 0.5973003359550690
+average running time    = 2.8900ms
+--------------------------------------------------
+
+********** N = 150, T = 100 **********
+--------------------------------------------------
+Algorithm currently in use: QuickFindUF
+--------------------------------------------------
+mean                    = 0.5947191111111109
+stddev                  = 0.0105073823156661
+confidenceLo            = 0.5926596641772404
+confidenceHi            = 0.5967785580449814
+average running time    = 222.9300ms
+--------------------------------------------------
+
+Algorithm currently in use: WeightedQuickUnionUF
+--------------------------------------------------
+mean                    = 0.5930297777777777
+stddev                  = 0.0118296914963099
+confidenceLo            = 0.5907111582445009
+confidenceHi            = 0.5953483973110544
+average running time    = 2.5700ms
 --------------------------------------------------
 
 ********** N = 200, T = 100 **********
 --------------------------------------------------
 Algorithm currently in use: QuickFindUF
 --------------------------------------------------
-mean                    = 0.5935712500000000
-stddev                  = 0.0103166730154922
-confidenceLo            = 0.5915491820889636
-confidenceHi            = 0.5955933179110364
-average running time    = 639.8700ms
+mean                    = 0.5939074999999999
+stddev                  = 0.0097451104678348
+confidenceLo            = 0.5919974583483043
+confidenceHi            = 0.5958175416516955
+average running time    = 626.0500ms
 --------------------------------------------------
 
 Algorithm currently in use: WeightedQuickUnionUF
 --------------------------------------------------
-mean                    = 0.5930402500000000
-stddev                  = 0.0088474828747897
-confidenceLo            = 0.5913061433565413
-confidenceHi            = 0.5947743566434588
-average running time    = 3.8600ms
+mean                    = 0.5940579999999998
+stddev                  = 0.0105867781795135
+confidenceLo            = 0.5919829914768151
+confidenceHi            = 0.5961330085231844
+average running time    = 3.9000ms
 --------------------------------------------------
-
 
