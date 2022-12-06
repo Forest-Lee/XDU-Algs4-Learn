@@ -117,7 +117,7 @@ public class PercolationStats {
             int N = Integer.parseInt(args[0]);
             int T = Integer.parseInt(args[1]);
             try {
-                PrintStream ps = new PrintStream(new FileOutputStream("ans/ans1.txt"));
+                PrintStream ps = new PrintStream(new FileOutputStream("ans/ans1.txt", true));
                 MultiOutputStream mos = new MultiOutputStream(System.out, ps);
                 System.setOut(new PrintStream(mos));
                 System.out.printf("********** N = %d, T = %d **********\n", N, T);
