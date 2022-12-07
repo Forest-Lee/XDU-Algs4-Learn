@@ -120,7 +120,7 @@ public class PercolationStats {
                 PrintStream ps = new PrintStream(new FileOutputStream("ans/ans1.txt", true));
                 MultiOutputStream mos = new MultiOutputStream(System.out, ps);
                 System.setOut(new PrintStream(mos));
-                System.out.printf("********** N = %d, T = %d **********\n", N, T);
+                System.out.printf("========== N = %d, T = %d ==========\n", N, T);
                 System.out.println("--------------------------------------------------");
                 mos.close();
                 ps.close();
