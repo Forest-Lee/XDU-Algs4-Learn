@@ -78,7 +78,6 @@ public class EdgeWeightedGraph {
         return list;
     }
 
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(V + " vertices, " + E + " edges");
