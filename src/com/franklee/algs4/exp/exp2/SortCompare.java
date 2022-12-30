@@ -3,6 +3,7 @@ package com.franklee.algs4.exp.exp2;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class SortCompare {
@@ -84,6 +85,7 @@ public class SortCompare {
             System.out.printf("========== array size: %d ==========\n", size);
             System.out.println("Running Time Results    (ms)");
             System.out.println("--------------------------------------------------------------------------------");
+//            Arrays.sort(arr);
             test(arr);
             show();
         }
