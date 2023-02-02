@@ -10,7 +10,7 @@ import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner in = new Scanner(new File("lib/usa.txt"));
+        Scanner in = new Scanner(new File("data/usa.txt"));
         int pointNum = in.nextInt();
         int edgeNum = in.nextInt();
         Point[] points = new Point[pointNum];
