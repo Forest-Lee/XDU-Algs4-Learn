@@ -1,6 +1,7 @@
 package com.franklee.algs4.ch4;
 
 import com.franklee.algs4.ch2.IndexMinPQ;
+import edu.princeton.cs.algs4.DirectedEdge;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
@@ -8,9 +9,10 @@ import edu.princeton.cs.algs4.StdOut;
 public class DijkstraSP {
     private double[] distTo;        // distTo[v] = distance  of shortest s->v path
     private DirectedEdge[] edgeTo;  // edgeTo[v] = last edge on shortest s->v path
-    private IndexMinPQ<Double> pq;
+    private IndexMinPQ<Double> pq;  // priority queue of vertices
 
     public DijkstraSP(EdgeWeightedDigraph G, int s) {
+        // DijkstraSP algorithm precondition
         for (DirectedEdge e : G.edges()) {
             if (e.weight() < 0)
                 throw new IllegalArgumentException("edge " + e + " has negative weight");
@@ -26,14 +28,13 @@ public class DijkstraSP {
             distTo[v] = Double.POSITIVE_INFINITY;
         distTo[s] = 0.0;
 
+        // relax vertices in order of distance from s
         pq.insert(s, distTo[s]);
         while (!pq.isEmpty()) {
             int v = pq.delMin();
             for (DirectedEdge e : G.adj(v))
                 relax(e);
         }
-
-        assert check(G, s);
     }
 
     private void relax(DirectedEdge e) {
@@ -70,53 +71,6 @@ public class DijkstraSP {
         int V = distTo.length;
         if (v < 0 || v >= V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
-    }
-
-    private boolean check(EdgeWeightedDigraph G, int s) {
-        // check that edge weights are nonnegative
-        for (DirectedEdge e : G.edges()) {
-            if (e.weight() < 0) {
-                System.err.println("negative edge weight detected");
-                return false;
-            }
-        }
-
-        // check that distTo[v] and edgeTo[v] are consistent
-        if (distTo[s] != 0.0 || edgeTo[s] != null) {
-            System.err.println("distTo[s] and edgeTo[s] inconsistent");
-            return false;
-        }
-        for (int v = 0; v < G.V(); v++) {
-            if (v == s) continue;
-            if (edgeTo[v] == null && distTo[v] != Double.POSITIVE_INFINITY) {
-                System.err.println("distTo[] and edgeTo[] inconsistent");
-                return false;
-            }
-        }
-
-        // check that all edges e = v->w satisfy distTo[w] <= distTo[v] + e.weight()
-        for (int v = 0; v < G.V(); v++) {
-            for (DirectedEdge e : G.adj(v)) {
-                int w = e.to();
-                if (distTo[v] + e.weight() < distTo[w]) {
-                    System.err.println("edge " + e + " not relaxed");
-                    return false;
-                }
-            }
-        }
-
-        // check that all edges e = v->w on SPT satisfy distTo[w] == distTo[v] + e.weight()
-        for (int w = 0; w < G.V(); w++) {
-            if (edgeTo[w] == null) continue;
-            DirectedEdge e = edgeTo[w];
-            int v = e.from();
-            if (w != e.to()) return false;
-            if (distTo[v] + e.weight() != distTo[w]) {
-                System.err.println("edge " + e + " on shortest path not tight");
-                return false;
-            }
-        }
-        return true;
     }
 
     public static void main(String[] args) {

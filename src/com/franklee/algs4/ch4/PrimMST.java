@@ -1,15 +1,15 @@
 package com.franklee.algs4.ch4;
 
 import com.franklee.algs4.ch2.IndexMinPQ;
-import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Edge;
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.StdOut;
 
 public class PrimMST {
-    private Edge[] edgeTo;          // shortest edge from tree vertex to non-tree vertex
+    private Edge[] edgeTo;          // shortest edge from tree vertex
     private double[] distTo;        // distTo[w] = edgeTo[w].weight()
-    private boolean[] marked;
+    private boolean[] marked;       // marked[v] = true iff v on tree
     private IndexMinPQ<Double> pq;  // eligible crossing edges
+    private double weight;
 
     public PrimMST(EdgeWeightedGraph G) {
         edgeTo = new Edge[G.V()];
@@ -19,20 +19,21 @@ public class PrimMST {
         for (int v = 0; v < G.V(); v++) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
-
         distTo[0] = 0.0;
-        pq.insert(0, 0.0);
+        pq.insert(0, 0.0);  // assume G is connected
         while (!pq.isEmpty()) {
             visit(G, pq.delMin());
         }
     }
 
     private void visit(EdgeWeightedGraph G, int v) {
+        // add v to tree; update data structures
         marked[v] = true;
         for (Edge e : G.adj(v)) {
             int w = e.other(v);
-            if (marked[w]) continue; // ignore if already in T
+            if (marked[w]) continue;    // skip if ineligible
             if (e.weight() < distTo[w]) {
+                weight += e.weight();
                 edgeTo[w] = e;
                 distTo[w] = e.weight();
                 if (pq.contains(w)) pq.change(w, distTo[w]);
@@ -43,30 +44,13 @@ public class PrimMST {
 
     public Iterable<Edge> edges() {
         Queue<Edge> mst = new Queue<Edge>();
-        for (int v = 0; v < edgeTo.length; v++) {
-            Edge e = edgeTo[v];
-            if (e != null) {
-                mst.enqueue(e);
-            }
+        for (int v = 1; v < edgeTo.length; v++) {   // tip: edgeTo[0] == null
+            mst.enqueue(edgeTo[v]);
         }
         return mst;
     }
 
     public double weight() {
-        double weight = 0.0;
-        for (Edge e : edges()) {
-            weight += e.weight();
-        }
         return weight;
-    }
-
-    public static void main(String[] args) {
-        In in = new In(args[0]);
-        EdgeWeightedGraph G = new EdgeWeightedGraph(in);
-        PrimMST mst = new PrimMST(G);
-        for (Edge e : mst.edges()) {
-            StdOut.println(e);
-        }
-        StdOut.printf("%.5f\n", mst.weight());
     }
 }

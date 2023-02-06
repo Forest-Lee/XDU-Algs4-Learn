@@ -1,12 +1,14 @@
 package com.franklee.algs4.ch4;
 
+import edu.princeton.cs.algs4.Edge;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Queue;
 
 public class LazyPrimMST {
-    private boolean[] marked;   // MST vertices
-    private Queue<Edge> mst;    // MST edges
+    private boolean[] marked;   // marked[v] = true iff v on tree
     private MinPQ<Edge> pq;     // crossing (and ineligible) edges
+    private Queue<Edge> mst;    // edges in MST
+    private double weight;
 
     public LazyPrimMST(EdgeWeightedGraph G) {
         pq = new MinPQ<Edge>();
@@ -14,20 +16,19 @@ public class LazyPrimMST {
         marked = new boolean[G.V()];
 
         visit(G, 0); // assumes G is connected
-        while (!pq.isEmpty() && mst.size() < G.V() - 1) {
-            Edge e = pq.delMin();
+        while (!pq.isEmpty()) {
+            Edge e = pq.delMin();                   // get lowest-weight edge from pq
             int v = e.either(), w = e.other(v);
-            if (marked[v] && marked[w]) continue; // ignore ineligible edges(both endpoints in MST)
+            if (marked[v] && marked[w]) continue;   // skip if ineligible
             mst.enqueue(e);
-            if (!marked[v]) visit(G, v);;
+            weight += e.weight();
+            if (!marked[v]) visit(G, v);
             if (!marked[w]) visit(G, w);
         }
     }
 
-    /**
-     * Mark v and add to pq all edges from v to unmarked vertices.
-     */
     private void visit(EdgeWeightedGraph G, int v) {
+        // add v to tree; update data structures
         marked[v] = true;
         for (Edge e : G.adj(v)) {
             if (!marked[e.other(v)]) pq.insert(e);
@@ -39,10 +40,6 @@ public class LazyPrimMST {
     }
 
     public double weight() {
-        double weight = 0.0;
-        for (Edge e : edges()) {
-            weight += e.weight();
-        }
         return weight;
     }
 }
