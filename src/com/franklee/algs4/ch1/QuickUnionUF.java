@@ -7,10 +7,10 @@ public class QuickUnionUF implements UF{
     private int[] parent;   // parent[i] = parent of i
     private int count;      // number of components
 
-    public QuickUnionUF(int n) {
-        parent = new int[n];
-        count = n;
-        for (int i = 0; i < n; i++) {
+    public QuickUnionUF(int N) {
+        parent = new int[N];
+        count = N;
+        for (int i = 0; i < N; i++) {
             parent[i] = i;
         }
     }
