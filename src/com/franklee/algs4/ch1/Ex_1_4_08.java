@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import java.util.Arrays;
 
-public class Ex1_4_08 {
+public class Ex_1_4_08 {
     public static void main(String[] args) {
         int[] arr = new In(args[0]).readAllInts();
         StdOut.println(countNumOfEqualPairs(arr));

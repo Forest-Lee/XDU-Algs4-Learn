@@ -7,10 +7,10 @@ public class QuickUnionUF implements UF{
     private int[] parent;   // parent[i] = parent of i
     private int count;      // number of components
 
-    public QuickUnionUF(int n) {
-        parent = new int[n];
-        count = n;
-        for (int i = 0; i < n; i++) {
+    public QuickUnionUF(int N) {
+        parent = new int[N];
+        count = N;
+        for (int i = 0; i < N; i++) {
             parent[i] = i;
         }
     }
@@ -30,9 +30,9 @@ public class QuickUnionUF implements UF{
     }
 
     public void validate(int p) {
-        int n = parent.length;
-        if (p < 0 || p >= n) {
-            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
+        int N = parent.length;
+        if (p < 0 || p >= N) {
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (N-1));
         }
     }
 
@@ -53,8 +53,8 @@ public class QuickUnionUF implements UF{
     }
 
     public static void main(String[] args) {
-        int n = StdIn.readInt();
-        QuickUnionUF uf = new QuickUnionUF(n);
+        int N = StdIn.readInt();
+        QuickUnionUF uf = new QuickUnionUF(N);
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt();

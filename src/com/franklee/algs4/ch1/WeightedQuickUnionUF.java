@@ -8,11 +8,11 @@ public class WeightedQuickUnionUF implements UF{
     private int[] size;     // size[i] = number of objects in subtree rooted at i
     private int count;      // number of components
 
-    public WeightedQuickUnionUF(int n) {
-        count = n;
-        parent = new int[n];
-        size = new int[n];
-        for (int i = 0; i < n; i++) {
+    public WeightedQuickUnionUF(int N) {
+        count = N;
+        parent = new int[N];
+        size = new int[N];
+        for (int i = 0; i < N; i++) {
             parent[i] = i;
             size[i] = i;
         }
@@ -33,9 +33,9 @@ public class WeightedQuickUnionUF implements UF{
     }
 
     public void validate(int p) {
-        int n = parent.length;
-        if (p < 0 || p >= n) {
-            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
+        int N = parent.length;
+        if (p < 0 || p >= N) {
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (N-1));
         }
     }
 
@@ -62,8 +62,8 @@ public class WeightedQuickUnionUF implements UF{
     }
 
     public static void main(String[] args) {
-        int n = StdIn.readInt();
-        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
+        int N = StdIn.readInt();
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(N);
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt();
