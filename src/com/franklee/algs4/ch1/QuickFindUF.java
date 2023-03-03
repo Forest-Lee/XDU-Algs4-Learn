@@ -7,10 +7,10 @@ public class QuickFindUF implements UF {
     private int[] id;   // id[i] = component identifier of i
     private int count;  // number of components
 
-    public QuickFindUF(int N) {
-        id = new int[N];
-        count = N;
-        for (int i = 0; i < N; i++) {
+    public QuickFindUF(int n) {
+        id = new int[n];
+        count = n;
+        for (int i = 0; i < n; i++) {
             id[i] = i;
         }
     }

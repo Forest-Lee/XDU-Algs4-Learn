@@ -8,13 +8,13 @@ public class WeightedQuickUnionUF implements UF{
     private int[] size;     // size[i] = number of objects in subtree rooted at i
     private int count;      // number of components
 
-    public WeightedQuickUnionUF(int N) {
-        count = N;
-        parent = new int[N];
-        size = new int[N];
-        for (int i = 0; i < N; i++) {
+    public WeightedQuickUnionUF(int n) {
+        count = n;
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
             parent[i] = i;
-            size[i] = 1;
+            size[i] = i;
         }
     }
 
