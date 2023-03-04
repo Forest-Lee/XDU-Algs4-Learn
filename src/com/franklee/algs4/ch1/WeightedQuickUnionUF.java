@@ -53,7 +53,7 @@ public class WeightedQuickUnionUF implements UF{
         // make smaller root point to larger one
         if (size[pRoot] < size[qRoot]) {
             parent[pRoot] = qRoot;
-            size[qRoot] += pRoot;
+            size[qRoot] += size[pRoot];
         } else {
             parent[qRoot] = pRoot;
             size[pRoot] += size[qRoot];
