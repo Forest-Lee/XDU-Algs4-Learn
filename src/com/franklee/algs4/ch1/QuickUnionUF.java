@@ -3,7 +3,7 @@ package com.franklee.algs4.ch1;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
-public class QuickUnionUF implements UF{
+public class QuickUnionUF implements UF {
     private int[] parent;   // parent[i] = parent of i
     private int count;      // number of components
 
