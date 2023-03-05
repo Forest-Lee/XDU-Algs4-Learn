@@ -27,7 +27,7 @@ public class Quick {
      */
     private static int partition(Comparable[] a, int lo, int hi) {
         int i = lo, j = hi + 1;
-        Comparable v = a[lo];
+        Comparable v = a[lo];   // default pivot
         while (true) {
             // find item >= v on the left to swap
             while (less(a[++i], v)) {
@@ -40,7 +40,7 @@ public class Quick {
             if (i >= j) break; // check if pointers cross
             exch(a, i, j);
         }
-        exch(a, lo, j); // now, a[lo..j-1] <= a[j] <= a[j+1..hi]
+        exch(a, lo, j); // put pivot at a[j], then a[lo..j-1] <= a[j] <= a[j+1..hi]
         return j;
     }
 
