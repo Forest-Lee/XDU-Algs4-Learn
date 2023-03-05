@@ -10,7 +10,7 @@ public class MinPQ<Key extends Comparable<Key>> {
     private int N;      // number of elements on priority queue
 
     public MinPQ(int capacity) {
-        pq = (Key[]) new Object[capacity + 1];
+        pq = (Key[]) new Comparable[capacity+1];
         N = 0;
     }
 
@@ -20,7 +20,7 @@ public class MinPQ<Key extends Comparable<Key>> {
 
     public MinPQ(Key[] keys) {
         N = keys.length;
-        pq = (Key[]) new Object[keys.length + 1];
+        pq = (Key[]) new Comparable[keys.length+1];
         for (int i = 0; i < N; i++) {
             pq[i+1] = keys[i];
         }
@@ -46,7 +46,7 @@ public class MinPQ<Key extends Comparable<Key>> {
 
     private void resize(int capacity) {
         assert capacity > N;
-        Key[] temp = (Key[]) new Object[capacity];
+        Key[] temp = (Key[]) new Comparable[capacity];
         for (int i = 1; i <= N; i++) {
             temp[i] = pq[i];
         }
@@ -97,7 +97,7 @@ public class MinPQ<Key extends Comparable<Key>> {
      ***************************************************************************/
 
     private boolean greater(int i, int j) {
-        return ((Comparable<Key>) pq[i]).compareTo(pq[j]) > 0;
+        return pq[i].compareTo(pq[j]) > 0;
     }
 
     private void exch(int i, int j) {
