@@ -16,6 +16,10 @@ public class Insertion {
         assert isSorted(a);
     }
 
+    /***************************************************************************
+     *  Helper sorting functions.
+     ***************************************************************************/
+
     private static boolean less(Comparable v, Comparable w) {
         return  v.compareTo(w) < 0;
     }
@@ -25,6 +29,10 @@ public class Insertion {
         a[i] = a[j];
         a[j] = swap;
     }
+
+    /***************************************************************************
+     *  Check if array is sorted - useful for debugging.
+     ***************************************************************************/
 
     private static boolean isSorted(Comparable[] a) {
         return isSorted(a, 0, a.length);

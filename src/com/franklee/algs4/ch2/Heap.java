@@ -6,19 +6,19 @@ import edu.princeton.cs.algs4.StdOut;
 public class Heap {
     private Heap() { }
 
-    public static void sort(Comparable[] pq) {
-        int n = pq.length;
+    public static void sort(Comparable[] a) {
+        int n = a.length;
 
-        // heapify phase
+        // heap construction
         for (int k = n/2; k >= 1; k--) {
-            sink(pq, k, n);
+            sink(a, k, n);
         }
 
-        // sortdown phase
+        // heap sortdown
         int k = n;
         while (k > 1) {
-            exch(pq, 1, k--);
-            sink(pq, 1, k);
+            exch(a, 1, k--);
+            sink(a, 1, k);
         }
     }
 
@@ -36,13 +36,13 @@ public class Heap {
         }
     }
 
+    /***************************************************************************
+     * Helper sorting functions.
+     ***************************************************************************/
+
     private static boolean less(Comparable[]a, int i, int j) {
         return a[i-1].compareTo(a[j-1]) < 0;
     }
-
-    /***************************************************************************
-     * Helper functions for comparisons and swaps.
-     ***************************************************************************/
 
     private static void exch(Object[] a, int i, int j) {
         Object swap = a[i-1];

@@ -4,17 +4,17 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class MergeBU {
-    //private static Comparable[] aux;
-
     private MergeBU() { }
 
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
         int i = lo, j = mid+1;
 
+        // copy to aux[]
         for (int k = lo; k <= hi; k++) {
             aux[k] = a[k];
         }
 
+        // merge back to a[]
         for (int k = lo; k <= hi; k++) {
             if (i > mid)                    a[k] = aux[j++];
             else if (j > hi)                a[k] = aux[i++];

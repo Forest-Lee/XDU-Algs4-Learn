@@ -6,12 +6,12 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.NoSuchElementException;
 
 public class MinPQ<Key extends Comparable<Key>> {
-    private Key[] pq;
-    private int n;
+    private Key[] pq;   // store items at indices 1 to n
+    private int N;      // number of elements on priority queue
 
     public MinPQ(int capacity) {
         pq = (Key[]) new Object[capacity + 1];
-        n = 0;
+        N = 0;
     }
 
     public MinPQ() {
@@ -19,22 +19,24 @@ public class MinPQ<Key extends Comparable<Key>> {
     }
 
     public MinPQ(Key[] keys) {
-        n = keys.length;
+        N = keys.length;
         pq = (Key[]) new Object[keys.length + 1];
-        for (int i = 0; i < n; i++)
-            pq[i + 1] = keys[i];
-        for (int k = n / 2; k >= 1; k--) {
+        for (int i = 0; i < N; i++) {
+            pq[i+1] = keys[i];
+        }
+        // heapify pq
+        for (int k = N/2; k >= 1; k--) {
             sink(k);
         }
         assert isMinHeap();
     }
 
     public boolean isEmpty() {
-        return n == 0;
+        return N == 0;
     }
 
     public int size() {
-        return n;
+        return N;
     }
 
     public Key min() {
@@ -43,28 +45,28 @@ public class MinPQ<Key extends Comparable<Key>> {
     }
 
     private void resize(int capacity) {
-        assert capacity > n;
+        assert capacity > N;
         Key[] temp = (Key[]) new Object[capacity];
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= N; i++) {
             temp[i] = pq[i];
         }
         pq = temp;
     }
 
     public void insert(Key x) {
-        if (n == pq.length - 1) resize(2 * pq.length);
-        pq[++n] = x;
-        swim(n);
+        if (N == pq.length-1) resize(2*pq.length);
+        pq[++N] = x;        // insert at the end
+        swim(N);            // restore heap property
         assert isMinHeap();
     }
 
     public Key delMin() {
         if (isEmpty()) throw new RuntimeException("Priority queue underflow");
         Key min = pq[1];
-        exch(1, n--);
-        sink(1);
-        pq[n + 1] = null;
-        if ((n > 0) && (n == (pq.length - 1) / 4)) resize(pq.length / 2);
+        exch(1, N--);
+        pq[N+1] = null;     // avoid loitering and help with garbage collection
+        sink(1);            // restore heap property
+        if ((N > 0) && (N == (pq.length-1)/4)) resize(pq.length/2);
         assert isMinHeap();
         return min;
     }
@@ -74,16 +76,16 @@ public class MinPQ<Key extends Comparable<Key>> {
      ***************************************************************************/
 
     private void swim(int k) {
-        while (k > 1 && greater(k / 2, k)) {
-            exch(k, k / 2);
-            k = k / 2;
+        while (k > 1 && greater(k/2, k)) {
+            exch(k, k/2);
+            k = k/2;
         }
     }
 
     private void sink(int k) {
-        while (2 * k <= n) {
-            int j = 2 * k;
-            if (j < n && greater(j, j + 1)) j++;
+        while (2*k <= N) {
+            int j = 2*k;
+            if (j < N && greater(j, j+1)) j++;  // j is the index of the smaller child
             if (!greater(k, j)) break;
             exch(k, j);
             k = j;
@@ -109,16 +111,22 @@ public class MinPQ<Key extends Comparable<Key>> {
      ***************************************************************************/
 
     public boolean isMinHeap() {
-        return isMinHeap(1);
+        for (int i = 1; i <= N; i++) {
+            if (pq[i] == null) return false;
+        }
+        for (int i = N+1; i < pq.length; i++) {
+            if (pq[i] != null) return false;
+        }
+        if (pq[0] != null) return false;
+        return isMinHeapOrdered(1);
     }
 
-    private boolean isMinHeap(int k) {
-        if (k > n) return true;
-        int left = 2 * k;
-        int right = 2 * k + 1;
-        if (left <= n && greater(k, left)) return false;
-        if (right <= n && greater(k, right)) return false;
-        return isMinHeap(left) && isMinHeap(right);
+    private boolean isMinHeapOrdered(int k) {
+        if (k > N) return true;
+        int left = 2*k, right = 2*k + 1;
+        if (left  <= N && greater(k, left))  return false;
+        if (right <= N && greater(k, right)) return false;
+        return isMinHeapOrdered(left) && isMinHeapOrdered(right);
     }
 
     public static void main(String[] args) {

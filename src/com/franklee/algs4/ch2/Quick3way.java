@@ -23,7 +23,7 @@ public class Quick3way {
         int i = lo + 1;
         while (i <= gt) {
             int cmp = a[i].compareTo(v);
-            if (cmp < 0)      exch(a, lt++, i++);
+            if      (cmp < 0) exch(a, lt++, i++);
             else if (cmp > 0) exch(a, i, gt--);
             else              i++;
         }

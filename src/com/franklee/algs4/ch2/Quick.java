@@ -29,10 +29,12 @@ public class Quick {
         int i = lo, j = hi + 1;
         Comparable v = a[lo];
         while (true) {
-            while (less(a[++i], v)) { // find an item >= v on the left to swap
+            // find item >= v on the left to swap
+            while (less(a[++i], v)) {
                 if (i == hi) break;
             }
-            while (less(v, a[--j])) { // find an item <= v on the right to swap
+            // find item <= v on the right to swap
+            while (less(v, a[--j])) {
                 if (j == lo) break; // redundant
             }
             if (i >= j) break; // check if pointers cross
@@ -53,12 +55,12 @@ public class Quick {
         StdRandom.shuffle(a);
         int lo = 0, hi = a.length - 1;
         while (hi > lo) {
-            int j = partition(a, lo, hi);
-            if      (j < k) lo = j + 1;
-            else if (j > k) hi = j - 1;
-            else    return a[k];
+            int i = partition(a, lo, hi);
+            if      (i < k) lo = i + 1;
+            else if (i > k) hi = i - 1;
+            else    return a[i];
         }
-        return a[k];
+        return a[lo];
     }
 
     /***************************************************************************
