@@ -8,7 +8,7 @@ public class LazyPrimMST {
     private boolean[] marked;   // marked[v] = true iff v on tree
     private MinPQ<Edge> pq;     // crossing (and ineligible) edges
     private Queue<Edge> mst;    // edges in MST
-    private double weight;
+    private double weight;      // weight of MST
 
     public LazyPrimMST(EdgeWeightedGraph G) {
         pq = new MinPQ<Edge>();
@@ -28,7 +28,7 @@ public class LazyPrimMST {
     }
 
     private void visit(EdgeWeightedGraph G, int v) {
-        // add v to tree; update data structures
+        // add v to tree, update data structures
         marked[v] = true;
         for (Edge e : G.adj(v)) {
             if (!marked[e.other(v)]) pq.insert(e);

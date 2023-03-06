@@ -24,19 +24,22 @@ public class DijkstraSP {
 
         validateVertex(s);
 
-        for (int v = 0; v < G.V(); v++)
+        for (int v = 0; v < G.V(); v++) {
             distTo[v] = Double.POSITIVE_INFINITY;
+        }
         distTo[s] = 0.0;
 
         // relax vertices in order of distance from s
         pq.insert(s, distTo[s]);
         while (!pq.isEmpty()) {
             int v = pq.delMin();
-            for (DirectedEdge e : G.adj(v))
+            for (DirectedEdge e : G.adj(v)) {
                 relax(e);
+            }
         }
     }
 
+    // relax edge e and update pq if changed
     private void relax(DirectedEdge e) {
         int v = e.from(), w = e.to();
         if (distTo[w] > distTo[v] + e.weight()) {
@@ -78,8 +81,10 @@ public class DijkstraSP {
         EdgeWeightedDigraph G = new EdgeWeightedDigraph(in);
         int s = Integer.parseInt(args[1]);
 
+        // compute shortest paths
         DijkstraSP sp = new DijkstraSP(G, s);
 
+        // print shortest paths
         for (int t = 0; t < G.V(); t++) {
             if (sp.hasPathTo(t)) {
                 StdOut.printf("%d to %d (%.2f)  ", s, t, sp.distTo(t));

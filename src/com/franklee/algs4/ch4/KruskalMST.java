@@ -7,7 +7,7 @@ import edu.princeton.cs.algs4.Queue;
 
 public class KruskalMST {
     private Queue<Edge> mst;    // edges in MST
-    private double weight;
+    private double weight;      // weight of MST
 
     public KruskalMST(EdgeWeightedGraph G) {
         mst = new Queue<Edge>();
@@ -17,7 +17,6 @@ public class KruskalMST {
         }
 
         QuickUnionUF uf = new QuickUnionUF(G.V());
-
         while (!pq.isEmpty() && mst.size() < G.V() - 1) {
             Edge e = pq.delMin();               // get lowest-weight edge from pq
             int v = e.either(), w = e.other(v);

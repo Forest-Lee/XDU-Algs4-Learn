@@ -9,7 +9,7 @@ public class PrimMST {
     private double[] distTo;        // distTo[w] = edgeTo[w].weight()
     private boolean[] marked;       // marked[v] = true iff v on tree
     private IndexMinPQ<Double> pq;  // eligible crossing edges
-    private double weight;
+    private double weight;          // weight of MST
 
     public PrimMST(EdgeWeightedGraph G) {
         edgeTo = new Edge[G.V()];
@@ -27,7 +27,7 @@ public class PrimMST {
     }
 
     private void visit(EdgeWeightedGraph G, int v) {
-        // add v to tree; update data structures
+        // add v to tree, update data structures
         marked[v] = true;
         for (Edge e : G.adj(v)) {
             int w = e.other(v);
