@@ -10,8 +10,8 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private static final int INIT_CAPACITY = 2;
     private Key[] keys;
     private Value[] vals;
-    private int n = 0;
-    //private int compares; // useful for debugging
+    private int N;
+//    private int compares; // useful for debugging
 
     public BinarySearchST() {
         this(INIT_CAPACITY);
@@ -23,19 +23,19 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     }
 
     private void resize(int capacity) {
-        assert capacity >= n;
-        Key[]   tempk = (Key[])   new Comparable[capacity];
-        Value[] tempv = (Value[]) new Object[capacity];
-        for (int i = 0; i < n; i++) {
-            tempk[i] = keys[i];
-            tempv[i] = vals[i];
+        assert capacity >= N;
+        Key[] tempKey = (Key[]) new Comparable[capacity];
+        Value[] tempVal = (Value[]) new Object[capacity];
+        for (int i = 0; i < N; i++) {
+            tempKey[i] = keys[i];
+            tempVal[i] = vals[i];
         }
-        keys = tempk;
-        vals = tempv;
+        keys = tempKey;
+        vals = tempVal;
     }
 
     public int size() {
-        return n;
+        return N;
     }
 
     public boolean isEmpty() {
@@ -47,40 +47,33 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         return get(key) != null;
     }
 
-    /**
-     * Returns the value associated with the given key in this symbol table.
-     */
     public Value get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         if (isEmpty()) return null;
         int i = rank(key);
-        if (i < n && keys[i].compareTo(key) == 0) return vals[i];
+        if (i < N && keys[i].compareTo(key) == 0) return vals[i];
         return null;
     }
 
-    /**
-     * Returns the number of keys in this symbol table strictly less than key.
-     */
+
+    // returns the number of keys in this symbol table strictly less than key
     public int rank(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to rank() is null");
 
-        int lo = 0, hi = n - 1;
-        //compares = 0; // useful for debugging
-        while (lo <= hi) { // binary search
+        // binary search
+        int lo = 0, hi = N - 1;
+//        compares = 0; // useful for debugging
+        while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
             int cmp = key.compareTo(keys[mid]);
-            //compares++; // useful for debugging
+//            compares++; // useful for debugging
             if      (cmp < 0) hi = mid - 1;
             else if (cmp > 0) lo = mid + 1;
-            else    return mid;
+            else return mid;
         }
         return lo;
     }
 
-    /**
-     * Inserts the specified key-value pair into the symbol table, overwriting the old
-     * value with the new value if the symbol table already contains the specified key.
-     */
     public void put(Key key, Value val) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
         if (val == null) {
@@ -88,24 +81,21 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
             return;
         }
 
+        // search for key, update value if found, grow table if new
         int i = rank(key);
-        //StdOut.print(compares); // useful for debugging
-
-        // update value if key already exists
-        if (i < n && keys[i].compareTo(key) == 0) {
+//        StdOut.print(compares); // useful for debugging
+        if (i < N && keys[i].compareTo(key) == 0) { // key already in table
             vals[i] = val;
             return;
         }
-
-        // insert new key-value pair
-        if (n == keys.length) resize(2*keys.length);
-        for (int j = n; j > i; j--) {
+        if (N == keys.length) resize(2*keys.length);    // resize if full
+        for (int j = N; j > i; j--) {
             keys[j] = keys[j-1];
             vals[j] = vals[j-1];
         }
         keys[i] = key;
         vals[i] = val;
-        n++;
+        N++;
     }
 
     public void delete(Key key) {
@@ -113,19 +103,18 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         if (isEmpty()) return;
 
         int i = rank(key);
-        if (i == n || keys[i].compareTo(key) != 0) { // key not in table
+        if (i == N || keys[i].compareTo(key) != 0) { // key not in table
             return;
         }
-        for (int j = i; j < n-1; j++) {
+        for (int j = i; j < N-1; j++) {
             keys[j] = keys[j+1];
             vals[j] = vals[j+1];
         }
-        n--;
-        keys[n] = null; // to avoid loitering
-        vals[n] = null;
+        N--;
+        keys[N] = null; // avoid loitering
+        vals[N] = null;
 
-        // resize if 1/4 full
-        if (n > 0 && n == keys.length/4) resize(keys.length/2);
+        if (N > 0 && N == keys.length/4) resize(keys.length/2); // resize if 1/4 full
     }
 
     public void deleteMin() {
@@ -149,12 +138,11 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
     public Key max() {
         if (isEmpty()) return null;
-        return keys[n-1];
+        return keys[N -1];
     }
 
-    /**
-     * Returns the kth smallest key in this symbol table.
-     */
+
+    // returns the kth smallest key in st
     public Key select(int k) {
         if (k < 0 || k >= size()) {
             throw new IllegalArgumentException("argument to select() is invalid: " + k);
@@ -162,30 +150,24 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         return keys[k];
     }
 
-    /**
-     * Returns the largest key in the symbol table less than or equal to key.
-     */
+    // returns the smallest key in st greater than or equal to key
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+        int i = rank(key);
+        if (i == N) throw new IllegalArgumentException("argument to ceiling() is too large");
+        return keys[i];
+    }
+
+    // returns the largest key in st less than or equal to key
     public Key floor(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to floor() is null");
         int i = rank(key);
-        if (i < n && key.compareTo(keys[i]) == 0) return keys[i];
+        if (i < N && key.compareTo(keys[i]) == 0) return keys[i];
         if (i == 0) throw new NoSuchElementException("argument to floor() is too small");
         return keys[i-1];
     }
 
-    /**
-     * Returns the smallest key in the symbol table greater than or equal to key.
-     */
-    public Key ceiling(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
-        int i = rank(key);
-        if (i == n) throw new IllegalArgumentException("argument to ceiling() is too large");
-        return keys[i];
-    }
-
-    /**
-     * Returns the number of keys in the symbol table in the specified range.
-     */
+    // returns the number of keys in st in the given range
     public int size(Key lo, Key hi) {
         if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
         if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
@@ -205,19 +187,21 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
         Queue<Key> queue = new Queue<Key>();
         if (lo.compareTo(hi) > 0) return queue;
-        for (int i = rank(lo); i < rank(hi); i++)
+        for (int i = rank(lo); i < rank(hi); i++) {
             queue.enqueue(keys[i]);
+        }
         if (contains(hi)) queue.enqueue(keys[rank(hi)]);
         return queue;
     }
 
     public static void main(String[] args) {
-        BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>(100);
+        BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>();
         for (int i = 0; !StdIn.isEmpty(); i++) {
             String key = StdIn.readString();
             st.put(key, i);
         }
-        for (String s : st.keys())
+        for (String s : st.keys()) {
             StdOut.println(s + " " + st.get(s));
+        }
     }
 }

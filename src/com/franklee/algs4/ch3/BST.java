@@ -9,16 +9,17 @@ import java.util.NoSuchElementException;
 public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
 
+    // a helper BST node data type
     private class Node {
         private Key key;
         private Value val;
         private Node left, right;
-        private int n; // number of nodes in subtree
+        private int N;  // number of nodes in subtree
 
-        public Node(Key key, Value val, int n) {
+        public Node(Key key, Value val, int N) {
             this.key = key;
             this.val = val;
-            this.n = n;
+            this.N = N;
         }
     }
 
@@ -30,7 +31,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     private int size(Node x) {
         if (x == null) return 0;
-        else return x.n;
+        else return x.N;
     }
 
     public boolean isEmpty() {
@@ -46,9 +47,8 @@ public class BST<Key extends Comparable<Key>, Value> {
         return get(root, key);
     }
 
-    public Value get(Node x, Key key) {
+    private Value get(Node x, Key key) {
         if (key == null) throw new IllegalArgumentException("calls get() with a null key");
-
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if      (cmp < 0) return get(x.left, key);
@@ -62,22 +62,21 @@ public class BST<Key extends Comparable<Key>, Value> {
             delete(key);
             return;
         }
-
         root = put(root, key, null);
     }
 
-    public Node put(Node x, Key key, Value val) {
+    private Node put(Node x, Key key, Value val) {
         if (x == null) return new Node(key, val, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left = put(x.left, key, val);
+        if      (cmp < 0) x.left  = put(x.left, key, val);
         else if (cmp > 0) x.right = put(x.right, key, val);
         else x.val = val;
-        x.n = size(x.left) + size(x.right) + 1;
+        x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
 
     /***************************************************************************
-     *  Order-based methods and deletion.
+     *  Deletion related methods.
      ***************************************************************************/
 
     public void delete(Key key) {
@@ -85,20 +84,21 @@ public class BST<Key extends Comparable<Key>, Value> {
         root = delete(root, key);
     }
 
+    // Hibbard deletion
     private Node delete(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left = delete(x.left, key);
+        if      (cmp < 0) x.left  = delete(x.left, key);
         else if (cmp > 0) x.right = delete(x.right, key);
         else {
             if (x.right == null) return x.left;
-            if (x.left == null) return x.right;
+            if (x.left  == null) return x.right;
             Node t = x;
             x = min(t.right);
             x.right = deleteMin(t.right);
             x.left = t.left;
         }
-        x.n = size(x.left) + size(x.right) + 1;
+        x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
 
@@ -110,7 +110,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     private Node deleteMin(Node x) {
         if (x.left == null) return x.right;
         x.left = deleteMin(x.left);
-        x.n = size(x.left) + size(x.right) + 1;
+        x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
 
@@ -122,7 +122,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     private Node deleteMax(Node x) {
         if (x.right == null) return x.left;
         x.right = deleteMax(x.right);
-        x.n = size(x.left) + size(x.right) + 1;
+        x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
 
@@ -150,13 +150,10 @@ public class BST<Key extends Comparable<Key>, Value> {
         return max(x.right);
     }
 
-    /**
-     * Returns the largest key in the symbol table less than or equal to key.
-     */
+    // returns the largest key in the symbol table less than or equal to key
     public Key floor(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to floor() is null");
         if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
-
         Node x = floor(root, key);
         if (x == null) return null;
         return x.key;
@@ -166,19 +163,16 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
-        if (cmp < 0) return floor(x.left, key);
+        if (cmp <  0) return floor(x.left, key);
         Node t = floor(x.right, key);
         if (t != null) return t;
         else return x;
     }
 
-    /**
-     * Returns the smallest key in the symbol table greater than or equal to key.
-     */
+    // returns the smallest key in the symbol table greater than or equal to key
     public Key ceiling(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
         if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
-
         Node x = ceiling(root, key);
         if (x == null) return null;
         return x.key;
@@ -188,15 +182,13 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
-        if (cmp > 0) return ceiling(x.right, key);
+        if (cmp >  0) return ceiling(x.right, key);
         Node t = ceiling(x.left, key);
         if (t != null) return t;
         else return x;
     }
 
-    /**
-     * Return the kth smallest key in the symbol table.
-     */
+    // return the kth smallest key in the symbol table
     public Key select(int k) {
         if (k < 0 || k >= size()) {
             throw new IllegalArgumentException("argument to select() is invalid: " + k);
@@ -213,9 +205,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         else            return x;
     }
 
-    /**
-     * Return the number of keys in the symbol table strictly less than key.
-     */
+    // returns the number of keys in the symbol table less than key
     public int rank(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to rank() is null");
         return rank(key, root);
@@ -229,9 +219,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         else              return size(x.left);
     }
 
-    /**
-     * Returns all keys in the symbol table as an Iterable.
-     */
     public Iterable<Key> keys() {
         if (isEmpty()) return new Queue<Key>();
         return keys(min(), max());
@@ -252,21 +239,16 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (cmphi > 0) keys(x.right, queue, lo, hi);
     }
 
-    /**
-     * Returns the number of keys in the symbol table in the given range.
-     */
+    // returns the number of keys in the symbol table in the given range
     public int size(Key lo, Key hi) {
         if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
         if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
-
         if (lo.compareTo(hi) > 0) return 0;
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
         else              return rank(hi) - rank(lo);
     }
 
-    /**
-     * Returns the height of the BST (for debugging).
-     */
+    // returns the height of the BST (for debugging)
     public int height() {
         return height(root);
     }
@@ -283,7 +265,8 @@ public class BST<Key extends Comparable<Key>, Value> {
             st.put(key, i);
         }
 
-        for (String s : st.keys())
+        for (String s : st.keys()) {
             StdOut.println(s + " " + st.get(s));
+        }
     }
 }

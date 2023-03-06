@@ -5,8 +5,8 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class SequentialSearchST<Key, Value> {
-    private int n;
     private Node first;
+    private int N;
 
     // a helper linked list data type
     private class Node {
@@ -24,7 +24,7 @@ public class SequentialSearchST<Key, Value> {
     public SequentialSearchST() { }
 
     public int size() {
-        return n;
+        return N;
     }
 
     public boolean isEmpty() {
@@ -36,9 +36,6 @@ public class SequentialSearchST<Key, Value> {
         return get(key) != null;
     }
 
-    /**
-     * Returns the value associated with the given key in this symbol table.
-     */
     public Value get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         for (Node x = first; x != null; x = x.next) {
@@ -49,10 +46,6 @@ public class SequentialSearchST<Key, Value> {
         return null;
     }
 
-    /**
-     * Inserts the specified key-value pair into the symbol table, overwriting the old
-     * value with the new value if the symbol table already contains the specified key.
-     */
     public void put(Key key, Value val) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
         if (val == null) {
@@ -60,15 +53,15 @@ public class SequentialSearchST<Key, Value> {
             return;
         }
 
-        // Search for key. Update value if found; grow table if new.
+        // search for key, update value if found, grow table if new
         for (Node x = first; x != null; x = x.next) {
-            if (key.equals(x.key)) { // search hit: update val.
+            if (key.equals(x.key)) {    // key already in table
                 x.val = val;
                 return;
             }
         }
-        first = new Node(key, val, first); // Search miss: add new node.
-        n++;
+        first = new Node(key, val, first);
+        N++;
     }
 
     public void delete(Key key) {
@@ -80,7 +73,7 @@ public class SequentialSearchST<Key, Value> {
     public Node delete(Node x, Key key) {
         if (x == null) return null;
         if (key.equals(x.key)) {
-            n--;
+            N--;
             return x.next;
         }
         x.next = delete(x.next, key);
@@ -89,8 +82,9 @@ public class SequentialSearchST<Key, Value> {
 
     public Iterable<Key> keys() {
         Queue<Key> queue = new Queue<Key>();
-        for (Node x = first; x != null; x = x.next)
+        for (Node x = first; x != null; x = x.next) {
             queue.enqueue(x.key);
+        }
         return queue;
     }
 
@@ -100,7 +94,8 @@ public class SequentialSearchST<Key, Value> {
             String key = StdIn.readString();
             st.put(key, i);
         }
-        for (String s : st.keys())
+        for (String s : st.keys()) {
             StdOut.println(s + " " + st.get(s));
+        }
     }
 }
