@@ -16,12 +16,12 @@ public class LSD {
             // compute frequency counts
             int[] count = new int[R+1];
             for (int i = 0; i < N; i++) {
-                count[a[i].charAt(d) + 1]++;
+                count[a[i].charAt(d)+1]++;
             }
 
             // compute cumulates
             for (int r = 0; r < R; r++) {
-                count[r + 1] += count[r];
+                count[r+1] += count[r];
             }
 
             // move data

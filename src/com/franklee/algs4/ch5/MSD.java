@@ -4,12 +4,13 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class MSD {
-    private MSD() {}
+    private MSD() {
+    }
 
     public static void sort(String[] a) {
         int N = a.length;
         String[] aux = new String[N];
-        sort(a, 0, N-1, 0, aux);
+        sort(a, 0, N - 1, 0, aux);
     }
 
     private static int charAt(String s, int d) {
@@ -25,11 +26,11 @@ public class MSD {
 
         // compute frequency counts
         for (int i = lo; i <= hi; i++) {
-            count[charAt(a[i], d) + 2]++;
+            count[charAt(a[i], d)+2]++;
         }
 
         // compute cumulates
-        for (int r = 0; r < R+1; r++) {
+        for (int r = 0; r < R + 1; r++) {
             count[r+1] += count[r];
         }
 
@@ -41,17 +42,17 @@ public class MSD {
 
         // move data
         for (int i = lo; i <= hi; i++) {
-            aux[count[charAt(a[i], d) + 1]++] = a[i];
+            aux[count[charAt(a[i], d)+1]++] = a[i];
         }
 
         // copy back
         for (int i = lo; i <= hi; i++) {
-            a[i] = aux[i - lo];
+            a[i] = aux[i-lo];
         }
 
         // recursively sort for each character (excludes sentinel -1)
         for (int r = 0; r < R; r++) {
-            sort(a, lo + count[r], lo + count[r+1] - 1, d+1, aux);
+            sort(a, lo+count[r], lo+count[r+1]-1, d+1, aux);
         }
     }
 
